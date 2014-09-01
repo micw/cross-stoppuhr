@@ -32,5 +32,3 @@ Ideen für spätere Versionen:
 - OpenOffice Export
 - Auswertung integrieren? Ggf. Live-Anzeige der letzten Einläufe mit Platzierung auf 2. Bildschirm?
 
-
-
