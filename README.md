@@ -1,6 +1,8 @@
 cross-stoppuhr
 ==============
 
+![](https://api.travis-ci.org/micw/cross-stoppuhr.svg)
+
 Eine Stoppuhr für die manuelle Zeitnahme Volksläufe bis ca. 300 Teilnehmern.
 
 Die Idee stammt aus dem Programm "Cross" der Firma Rieping-Software, welches allerdings
