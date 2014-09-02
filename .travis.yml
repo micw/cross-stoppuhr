@@ -7,16 +7,14 @@ before_install:
 
 before_deploy:
 - git fetch --tags
-- pwd
-- find .
-- ls -al
-- ls -al target
-
 
 deploy:
   provider: releases
   api_key:
     secure: YnTYrY+vKPy8FHDz/F5kWITpkErZBJIb9GtReOkweX8lNmz3x17r4LgA6y6CTEO/DED/6l3wgdsj3JEj1PgcyDtD6g/SKzAG6OZFrMMnKFFJAm2jjpyOXk7PjgM2WPZWIoqDq89GV+6b4XfEUtFOdEWP5u1rRDoGzvnaqK+Ciwg=
   file: target/Stoppuhr.exe
+  skip_cleanup: true
   on:
     repo: micw/cross-stoppuhr
+    all_branches: true
+    tags: true
