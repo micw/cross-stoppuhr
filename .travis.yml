@@ -1,7 +1,5 @@
 language: java
 
 before_install:
- - uname -a
- - echo -e "Package: *\nPin: release a=precise*\nPin-Priority: 2012" >> /etc/apt/preferences
- - sudo apt-get dist-upgrade -qq
- - sudo apt-get install -y ia32-libs-multiarch
+ - sudo apt-get update -qq
+ - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
