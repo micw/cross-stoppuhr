@@ -7,6 +7,11 @@ before_install:
 
 before_deploy:
 - git fetch --tags
+- pwd
+- find .
+- ls -al
+- ls -al target
+
 
 deploy:
   provider: releases
