@@ -59,7 +59,7 @@
 							<goal>launch4j</goal>
 						</goals>
 						<configuration>
-							<headerType>gui</headerType>
+							<headerType>cli</headerType>
 							<jar>${project.build.directory}/${artifactId}-${version}.one-jar.jar</jar>
 							<outfile>${project.build.directory}/Stoppuhr.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
