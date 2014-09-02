@@ -1,5 +1,12 @@
 language: java
-
 before_install:
- - sudo apt-get update -qq
- - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
+- sudo apt-get update -qq
+- if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm
+  ia32-libs ia32-libs-multiarch; fi
+deploy:
+  provider: releases
+  api_key:
+    secure: YnTYrY+vKPy8FHDz/F5kWITpkErZBJIb9GtReOkweX8lNmz3x17r4LgA6y6CTEO/DED/6l3wgdsj3JEj1PgcyDtD6g/SKzAG6OZFrMMnKFFJAm2jjpyOXk7PjgM2WPZWIoqDq89GV+6b4XfEUtFOdEWP5u1rRDoGzvnaqK+Ciwg=
+  file: target/Stoppuhr.exe
+  on:
+    repo: micw/cross-stoppuhr
