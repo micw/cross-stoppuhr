@@ -82,6 +82,34 @@ public class Stoppuhr
 		nummern.add(nummer);
 		fireUpdated();
 	}
+	public void insertZeitAt(int pos)
+	{
+		if (startzeit==0) return;
+		if (pos>=zeiten.size()) zeiten.add(null);
+		else zeiten.add(pos,null);
+		fireUpdated();
+	}
+	public void insertNummerAt(int pos)
+	{
+		if (startzeit==0) return;
+		if (pos>=nummern.size()) nummern.add(null);
+		else nummern.add(pos,null);
+		fireUpdated();
+	}
+	public void deleteZeitAt(int pos)
+	{
+		if (startzeit==0) return;
+		if (pos>=zeiten.size()) return;
+		zeiten.remove(pos);
+		fireUpdated();
+	}
+	public void deleteNummerAt(int pos)
+	{
+		if (startzeit==0) return;
+		if (pos>=nummern.size()) return;
+		nummern.remove(pos);
+		fireUpdated();
+	}
 	
 	protected EventListenerList eventListeners=new EventListenerList();
 	

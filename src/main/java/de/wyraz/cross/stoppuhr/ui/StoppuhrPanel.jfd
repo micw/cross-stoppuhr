@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 			"$columnSpecs": "default, labelcompgap, default, unrelgap, default, labelcompgap, default"
-			"$rowSpecs": "default, linegap, default, linegap, default:grow"
+			"$rowSpecs": "default, linegap, default, linegap, default:grow, linegap, default"
 		} ) {
 			name: "this"
 			"background": sfield java.awt.Color white
@@ -97,6 +97,13 @@ new FormModel {
 				"gridY": 5
 				"gridWidth": 7
 				"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label4"
+				"text": "Einfügen: Strg + E | Löschen: Strg + L"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 7
+				"gridWidth": 7
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

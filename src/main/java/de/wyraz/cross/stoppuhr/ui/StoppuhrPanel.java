@@ -4,13 +4,25 @@
 
 package de.wyraz.cross.stoppuhr.ui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.*;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
@@ -100,6 +112,37 @@ public class StoppuhrPanel extends JPanel {
 				stoppuhr.addZeit();
 			}
 		});
+
+		// http://tips4java.wordpress.com/2008/12/12/table-stop-editing/
+		tblZeiten.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+		
+		tblZeiten.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK), "delete");
+		tblZeiten.getActionMap().put("delete", new AbstractAction() {
+		    public void actionPerformed(ActionEvent evt) {
+		       int row = tblZeiten.getSelectedRow();
+		       int col = tblZeiten.getSelectedColumn();
+		       if (row >= 0)
+		       {
+		    	   if (col==1) StoppuhrPanel.this.stoppuhr.deleteZeitAt(row);
+		    	   else if (col==2) StoppuhrPanel.this.stoppuhr.deleteNummerAt(row);
+		       }
+		    }
+		});
+		
+		
+		tblZeiten.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_DOWN_MASK), "insert");
+		tblZeiten.getActionMap().put("insert", new AbstractAction() {
+		    public void actionPerformed(ActionEvent evt) {
+		       int row = tblZeiten.getSelectedRow();
+		       int col = tblZeiten.getSelectedColumn();
+		       if (row >= 0)
+		       {
+		    	   if (col==1) StoppuhrPanel.this.stoppuhr.insertZeitAt(row);
+		    	   else if (col==2) StoppuhrPanel.this.stoppuhr.insertNummerAt(row);
+		       }
+		    }
+		});
+		
 		
 	}
 
@@ -113,13 +156,14 @@ public class StoppuhrPanel extends JPanel {
 		fldStartnummer = new JTextField();
 		scrollPane1 = new JScrollPane();
 		tblZeiten = new JTable();
+		label4 = new JLabel();
 
 		//======== this ========
 		setBackground(Color.white);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new FormLayout(
 			"default, $lcgap, default, $ugap, default, $lcgap, default",
-			"2*(default, $lgap), default:grow"));
+			"2*(default, $lgap), default:grow, $lgap, default"));
 
 		//---- label1 ----
 		label1.setText("Startzeit:");
@@ -169,6 +213,10 @@ public class StoppuhrPanel extends JPanel {
 			scrollPane1.setViewportView(tblZeiten);
 		}
 		add(scrollPane1, CC.xywh(1, 5, 7, 1, CC.DEFAULT, CC.FILL));
+
+		//---- label4 ----
+		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + L");
+		add(label4, CC.xywh(1, 7, 7, 1));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
@@ -181,5 +229,6 @@ public class StoppuhrPanel extends JPanel {
 	private JTextField fldStartnummer;
 	private JScrollPane scrollPane1;
 	private JTable tblZeiten;
+	private JLabel label4;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }
