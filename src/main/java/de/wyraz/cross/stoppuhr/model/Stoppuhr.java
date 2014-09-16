@@ -1,18 +1,28 @@
 package de.wyraz.cross.stoppuhr.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelListener;
 
+import de.wyraz.cross.stoppuhr.storage.CSVStorage;
+import de.wyraz.cross.stoppuhr.storage.IStorage;
+
 
 public class Stoppuhr
 {
 	protected long startzeit;
 	
-	public void start()
+	public Stoppuhr()
 	{
+		saveState=storage.loadLatest(this);
+	}
+	
+	public void start(boolean force)
+	{
+		if (startzeit>0 && !force) return;
 		startzeit=System.currentTimeMillis();
 		zeiten=new ArrayList<>();
 		nummern=new ArrayList<>();
@@ -22,6 +32,10 @@ public class Stoppuhr
 	{
 		if (startzeit==0) return 0;
 		return (int) (System.currentTimeMillis()-startzeit);
+	}
+	public long getStartzeit()
+	{
+		return startzeit;
 	}
 
 	public String getZeitFormatted()
@@ -39,6 +53,38 @@ public class Stoppuhr
 		
 		return String.format("%02d:%02d:%02d.%d", h,m%60,s%60,ms);
 	}
+	
+	public String getStartzeitFormatted()
+	{
+		if (startzeit<=0) return "--:--:--";
+		return new SimpleDateFormat("HH:mm:ss").format(startzeit);
+	}
+	
+	
+	protected IStorage storage=new CSVStorage();
+	
+	protected int saveState=0;
+	
+	public int getSaveState()
+	{
+		return saveState;
+	}
+	
+	public void save()
+	{
+		saveState=storage.saveNext(this);
+	}
+	
+	public void load(long startzeit, List<Integer> zeiten, List<String> nummern)
+	{
+		if (startzeit>0)
+		{
+			this.startzeit=startzeit;
+			this.zeiten=new ArrayList<>(zeiten);
+			this.nummern=new ArrayList<>(nummern);
+			fireUpdated();
+		}
+	}
 
 	protected List<Integer> zeiten;
 	protected List<String> nummern;
@@ -49,6 +95,13 @@ public class Stoppuhr
 		return Math.max(zeiten.size(), nummern.size());
 	}
 	
+	public String getStartnummerAt(int pos)
+	{
+		if (nummern==null) return null;
+		if (pos>=nummern.size()) return null;
+		
+		return nummern.get(pos);
+	}
 	public String getStartnummerFormattedAt(int pos)
 	{
 		if (nummern==null) return null;
@@ -56,6 +109,13 @@ public class Stoppuhr
 		if (pos==nummern.size()) return ">>><<<";
 		
 		return nummern.get(pos);
+	}
+	public Integer getZeitAt(int pos)
+	{
+		if (zeiten==null) return null;
+		if (pos>=zeiten.size()) return null;
+		
+		return zeiten.get(pos);
 	}
 	public String getZeitFormattedAt(int pos)
 	{

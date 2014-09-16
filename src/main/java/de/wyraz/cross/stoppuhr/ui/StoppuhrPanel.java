@@ -68,7 +68,9 @@ public class StoppuhrPanel extends JPanel {
 		
 		tblZeiten.setModel(new StoppuhrTableModel(stoppuhr));
 		
-		stoppuhr.start();
+		stoppuhr.start(false);
+		
+		fldStartzeit.setText(stoppuhr.getStartzeitFormatted());
 		
 		new Thread() {
 			public void run() {
@@ -96,9 +98,6 @@ public class StoppuhrPanel extends JPanel {
 		fldStartnummer.setDocument(new JTextfieldFilter(JTextfieldFilter.NUMERIC));
 		
 		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0), "escape");
-		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0), "spacebar");
-		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "enter");
-		
 		getActionMap().put("escape",new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,6 +105,8 @@ public class StoppuhrPanel extends JPanel {
 				fldStartnummer.requestFocus();
 			}
 		});
+		
+		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "enter");
 		getActionMap().put("enter",new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,6 +115,8 @@ public class StoppuhrPanel extends JPanel {
 				fldStartnummer.requestFocus();
 			}
 		});
+		
+		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0), "spacebar");
 		getActionMap().put("spacebar",new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +124,16 @@ public class StoppuhrPanel extends JPanel {
 			}
 		});
 
+		
+		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_DOWN_MASK), "save");
+		getActionMap().put("save",new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stoppuhr.save();
+				refreshSaveState();
+			}
+		});
+		
 		// http://tips4java.wordpress.com/2008/12/12/table-stop-editing/
 		tblZeiten.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
@@ -200,6 +213,23 @@ public class StoppuhrPanel extends JPanel {
 		});
 		
 	}
+	
+	protected void refreshSaveState()
+	{
+		if (SwingUtilities.isEventDispatchThread())
+		{
+			fldSaveState.setText(stoppuhr.getSaveState()<=0?"---":""+stoppuhr.getSaveState());
+		}
+		else
+		{
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					refreshSaveState();
+				}
+			});
+		}
+	}
 
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -214,13 +244,16 @@ public class StoppuhrPanel extends JPanel {
 		scrollPane1 = new JScrollPane();
 		tblZeiten = new JTable();
 		label4 = new JLabel();
+		label7 = new JLabel();
+		label8 = new JLabel();
+		fldSaveState = new JLabel();
 
 		//======== this ========
 		setBackground(Color.white);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new FormLayout(
 			"86dlu, $lcgap, 61dlu, $ugap, 29dlu, $lcgap, 55dlu",
-			"4*(default, $lgap), default:grow, $lgap, default"));
+			"4*(default, $lgap), default:grow, 2*($lgap, default)"));
 
 		//---- label1 ----
 		label1.setText("Startzeit:");
@@ -228,7 +261,7 @@ public class StoppuhrPanel extends JPanel {
 		add(label1, CC.xy(1, 1));
 
 		//---- fldStartzeit ----
-		fldStartzeit.setText("00:00:00");
+		fldStartzeit.setText("--:--:--");
 		fldStartzeit.setFont(fldStartzeit.getFont().deriveFont(fldStartzeit.getFont().getStyle() | Font.BOLD, fldStartzeit.getFont().getSize() + 5f));
 		add(fldStartzeit, CC.xy(3, 1));
 
@@ -238,7 +271,7 @@ public class StoppuhrPanel extends JPanel {
 		add(label3, CC.xy(5, 1));
 
 		//---- fldZeit ----
-		fldZeit.setText("0:00:00");
+		fldZeit.setText("-:--:--.-");
 		fldZeit.setFont(fldZeit.getFont().deriveFont(fldZeit.getFont().getStyle() | Font.BOLD, fldZeit.getFont().getSize() + 5f));
 		add(fldZeit, CC.xy(7, 1));
 
@@ -282,6 +315,18 @@ public class StoppuhrPanel extends JPanel {
 		//---- label4 ----
 		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + X | \u00c4ndern: Doppelklick");
 		add(label4, CC.xywh(1, 11, 7, 1));
+
+		//---- label7 ----
+		label7.setText("Speichern: Strg + S");
+		add(label7, CC.xywh(1, 13, 3, 1));
+
+		//---- label8 ----
+		label8.setText("Stand:");
+		add(label8, CC.xy(5, 13));
+
+		//---- fldSaveState ----
+		fldSaveState.setText("---");
+		add(fldSaveState, CC.xy(7, 13));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
@@ -297,5 +342,8 @@ public class StoppuhrPanel extends JPanel {
 	private JScrollPane scrollPane1;
 	private JTable tblZeiten;
 	private JLabel label4;
+	private JLabel label7;
+	private JLabel label8;
+	private JLabel fldSaveState;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

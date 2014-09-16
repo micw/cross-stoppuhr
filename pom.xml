@@ -86,6 +86,11 @@
 			<artifactId>jgoodies-forms</artifactId>
 			<version>1.7.2</version>
 		</dependency>
+		<dependency>
+		    <groupId>net.sf.supercsv</groupId>
+		    <artifactId>super-csv</artifactId>
+		    <version>2.2.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
