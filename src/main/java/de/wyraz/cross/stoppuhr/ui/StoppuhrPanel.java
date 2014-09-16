@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -22,7 +23,12 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
@@ -143,6 +149,37 @@ public class StoppuhrPanel extends JPanel {
 		    }
 		});
 		
+		//http://stackoverflow.com/questions/7197366/jtable-row-selection-after-tablemodel-update
+		final AtomicInteger selectedRow=new AtomicInteger(-1);
+		final AtomicInteger selectedCol=new AtomicInteger(-1);
+		tblZeiten.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e)
+			{
+				selectedRow.set(tblZeiten.getSelectedRow());
+		       	selectedCol.set(tblZeiten.getSelectedColumn());
+			}
+		});
+		tblZeiten.getModel().addTableModelListener(new TableModelListener() {      
+		    @Override
+		    public void tableChanged(TableModelEvent e)
+		    {
+		    	TableCellEditor editor=tblZeiten.getCellEditor();
+		    	if (editor!=null) editor.cancelCellEditing();
+		    	
+		    	final int row=selectedRow.get();
+		    	final int col=selectedCol.get();
+            	if (row<0||col<0) return;
+		    	
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+	            		// http://book.javanb.com/the-java-developers-almanac-1-4/egs/javax.swing.table/Sel.html
+	            		tblZeiten.changeSelection(row,col, false, false);
+		             }
+		        });
+		    }
+		});
 		
 	}
 
