@@ -19,8 +19,8 @@ muss Java 7 installiert sein, um es zu starten (https://www.java.com/de/download
 Stand
 -----
 
-01.09.2014 erster Prototyp
-16.09.2014 viele Funktionen
+- 01.09.2014 erster Prototyp
+- 16.09.2014 viele Funktionen
 
 Funktionen
 ----------
