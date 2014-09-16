@@ -1,7 +1,7 @@
 cross-stoppuhr
 ==============
 
-![](https://api.travis-ci.org/micw/cross-stoppuhr.svg)
+[![Build Status](https://drone.io/github.com/micw/cross-stoppuhr/status.png)](https://drone.io/github.com/micw/cross-stoppuhr/latest)
 
 Eine Stoppuhr für die manuelle Zeitnahme Volksläufe bis ca. 300 Teilnehmern.
 
@@ -9,10 +9,18 @@ Die Idee stammt aus dem Programm "Cross" der Firma Rieping-Software, welches all
 seit Jahren nicht weiterentwickelt wird und inzwischen eingestellt ist. "Cross" war zwar nicht das
 tollste Programm, hatte aber die meiner Meinung nach beste Umsetzung einer Stoppuhr.
 
+Download
+--------
+
+Ein ausführbares .jar liegt unter https://drone.io/github.com/micw/cross-stoppuhr/files/target/cross-stoppuhr-1.0.0-SNAPSHOT.one-jar.jar - es
+muss Java 7 installiert sein, um es zu starten (https://www.java.com/de/download/).
+
+
 Stand
 -----
 
 01.09.2014 erster Prototyp
+16.09.2014 viele Funktionen
 
 Funktionen
 ----------
@@ -21,12 +29,13 @@ Funktionen
 - Startnummerneingabe mit Ziffern+Enter
 - Zeitnahme und Startnummerneingabe sind unabhängig voneinander
 - Escape sprigt von überall aus zur Startnummerneingabe und leert diese
+- Bearbeiten von Nummern und Zeiten: Nummer oder Zeit Doppelklicken
+- Einfügen und Löschen von Nummern und Zeiten: Strg+E - einfügen, Strg+X - löschen
+- Hervorheben doppelt eingegebener Startnummern
 
 Geplant für erste Version:
 - Verlauf bei jeder Änderung asynchron zwischenspeichern
 - Excel-Export zur Auswertung
-- Bearbeiten von Nummern und Zeiten
-- Einfügen und Löschen von Nummern und Zeiten
 - Packen und erstellen einer .exe mit Launch4j
 
 Ideen für spätere Versionen:
