@@ -114,7 +114,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label4"
-				"text": "Einfügen: Strg + E | Löschen: Strg + L | Ändern: Doppelklick"
+				"text": "Einfügen: Strg + E | Löschen: Strg + X | Ändern: Doppelklick"
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"gridY": 11
 				"gridWidth": 7

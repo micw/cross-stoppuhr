@@ -123,6 +123,23 @@ public class Stoppuhr
 		}
 	}
 	
+	public boolean isStartnummerDoppeltAt(int pos)
+	{
+		if (nummern==null) return false;
+		if (pos>=nummern.size()) return false;
+		
+		String nummer=nummern.get(pos);
+		if (nummer==null || nummer.trim().length()==0) return false;
+		
+		for (int i=0;i<nummern.size();i++)
+		{
+			if (i==pos) continue;
+			String andereNummer=nummern.get(i);
+			if (andereNummer!=null && nummer.equalsIgnoreCase(andereNummer.trim())) return true;
+		}
+		return false;
+	}
+	
 	public void addZeit()
 	{
 		if (startzeit==0) return;

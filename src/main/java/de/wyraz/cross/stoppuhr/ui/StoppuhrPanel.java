@@ -5,6 +5,7 @@
 package de.wyraz.cross.stoppuhr.ui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -27,6 +28,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
@@ -122,7 +124,7 @@ public class StoppuhrPanel extends JPanel {
 		// http://tips4java.wordpress.com/2008/12/12/table-stop-editing/
 		tblZeiten.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		
-		tblZeiten.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK), "delete");
+		tblZeiten.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_X,InputEvent.CTRL_DOWN_MASK), "delete");
 		tblZeiten.getActionMap().put("delete", new AbstractAction() {
 		    public void actionPerformed(ActionEvent evt) {
 		       int row = tblZeiten.getSelectedRow();
@@ -179,6 +181,22 @@ public class StoppuhrPanel extends JPanel {
 		             }
 		        });
 		    }
+		});
+		
+		tblZeiten.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				
+				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				
+				if (stoppuhr.isStartnummerDoppeltAt(row)) setBackground(Color.ORANGE);
+				else if (isSelected) setBackground(table.getSelectionBackground());
+				else setBackground(table.getBackground());
+				
+				return this;
+			}
 		});
 		
 	}
@@ -262,7 +280,7 @@ public class StoppuhrPanel extends JPanel {
 		add(scrollPane1, CC.xywh(1, 9, 7, 1, CC.DEFAULT, CC.FILL));
 
 		//---- label4 ----
-		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + L | \u00c4ndern: Doppelklick");
+		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + X | \u00c4ndern: Doppelklick");
 		add(label4, CC.xywh(1, 11, 7, 1));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
