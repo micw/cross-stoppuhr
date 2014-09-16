@@ -47,9 +47,16 @@ public class StoppuhrTableModel extends AbstractTableModel
 	}
 	
 	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex)
+	{
+		if (columnIndex==1) stoppuhr.setZeitFormattedAt(rowIndex,(String)aValue);
+		if (columnIndex==2) stoppuhr.setStartnummerFormattedAt(rowIndex,(String)aValue);
+	}
+	
+	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex)
 	{
-		return columnIndex>0;
+		return columnIndex>0 && rowIndex<stoppuhr.getAnzahlWerte();
 	}
 
 }

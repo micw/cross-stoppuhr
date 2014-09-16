@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-			"$columnSpecs": "default, labelcompgap, default, unrelgap, default, labelcompgap, default"
-			"$rowSpecs": "default, linegap, default, linegap, default:grow, linegap, default"
+			"$columnSpecs": "86dlu, labelcompgap, 61dlu, unrelgap, 29dlu, labelcompgap, 55dlu"
+			"$rowSpecs": "default, linegap, default, linegap, default, linegap, default, linegap, default:grow, linegap, default"
 		} ) {
 			name: "this"
 			"background": sfield java.awt.Color white
@@ -56,6 +56,20 @@ new FormModel {
 				"gridX": 3
 				"gridY": 3
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label5"
+				"text": "Zeitnahme: Leertaste | Nummer: Eingabe+Enter"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 5
+				"gridWidth": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label6"
+				"text": "Mit Escape geht es immer zur Nummerneingabe zurück"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 7
+				"gridWidth": 7
+			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane1"
 				add( new FormComponent( "javax.swing.JTable" ) {
@@ -94,20 +108,20 @@ new FormModel {
 					"rowSelectionAllowed": false
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-				"gridY": 5
+				"gridY": 9
 				"gridWidth": 7
 				"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label4"
-				"text": "Einfügen: Strg + E | Löschen: Strg + L"
+				"text": "Einfügen: Strg + E | Löschen: Strg + L | Ändern: Doppelklick"
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-				"gridY": 7
+				"gridY": 11
 				"gridWidth": 7
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 480, 325 )
 		} )
 	}
 }

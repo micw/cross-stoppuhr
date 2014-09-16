@@ -1,13 +1,9 @@
 package de.wyraz.cross.stoppuhr.model;
 
-import java.text.Format;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 
@@ -68,6 +64,63 @@ public class Stoppuhr
 		if (pos==zeiten.size()) return ">>><<<";
 		
 		return getZeitFormatted(zeiten.get(pos));
+	}
+	public void setZeitFormattedAt(int pos, String value)
+	{
+		if (zeiten==null) return;
+		if (pos>=zeiten.size()) return;
+		
+		try
+		{
+			Integer zeit;
+			value=value.replaceAll("[^0-9,.]", "").replace(",", ".");
+			if (value.length()==0)
+			{
+				zeit=null;
+			}
+			else
+			{
+				Double val=Double.parseDouble(value);
+				
+				int stunden=(int) (val/10000);
+				int minuten=(int) ((val%10000)/100);
+				int sekunden=(int) (val%100);
+				int millisekunden=(int) ((val*1000)%1000);
+				
+				zeit=millisekunden+sekunden*1000+minuten*60000+stunden*3600000;
+			}
+			zeiten.set(pos, zeit);
+			fireUpdated();
+		}
+		catch (Exception ex)
+		{
+			// Ignored
+		}
+	}
+	public void setStartnummerFormattedAt(int pos, String value)
+	{
+		if (nummern==null) return;
+		if (pos>=nummern.size()) return;
+		
+		try
+		{
+			String nummer;
+			value=value.replaceAll("[^0-9,.]", "");
+			if (value.length()==0)
+			{
+				nummer=null;
+			}
+			else
+			{
+				nummer=value;
+			}
+			nummern.set(pos, nummer);
+			fireUpdated();
+		}
+		catch (Exception ex)
+		{
+			// Ignored
+		}
 	}
 	
 	public void addZeit()

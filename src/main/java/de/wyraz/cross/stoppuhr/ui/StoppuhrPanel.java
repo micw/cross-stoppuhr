@@ -191,6 +191,8 @@ public class StoppuhrPanel extends JPanel {
 		fldZeit = new JLabel();
 		label2 = new JLabel();
 		fldStartnummer = new JTextField();
+		label5 = new JLabel();
+		label6 = new JLabel();
 		scrollPane1 = new JScrollPane();
 		tblZeiten = new JTable();
 		label4 = new JLabel();
@@ -199,8 +201,8 @@ public class StoppuhrPanel extends JPanel {
 		setBackground(Color.white);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new FormLayout(
-			"default, $lcgap, default, $ugap, default, $lcgap, default",
-			"2*(default, $lgap), default:grow, $lgap, default"));
+			"86dlu, $lcgap, 61dlu, $ugap, 29dlu, $lcgap, 55dlu",
+			"4*(default, $lgap), default:grow, $lgap, default"));
 
 		//---- label1 ----
 		label1.setText("Startzeit:");
@@ -230,6 +232,14 @@ public class StoppuhrPanel extends JPanel {
 		fldStartnummer.setFont(fldStartnummer.getFont().deriveFont(fldStartnummer.getFont().getStyle() | Font.BOLD, fldStartnummer.getFont().getSize() + 5f));
 		add(fldStartnummer, CC.xy(3, 3));
 
+		//---- label5 ----
+		label5.setText("Zeitnahme: Leertaste | Nummer: Eingabe+Enter");
+		add(label5, CC.xywh(1, 5, 7, 1));
+
+		//---- label6 ----
+		label6.setText("Mit Escape geht es immer zur Nummerneingabe zur\u00fcck");
+		add(label6, CC.xywh(1, 7, 7, 1));
+
 		//======== scrollPane1 ========
 		{
 
@@ -249,11 +259,11 @@ public class StoppuhrPanel extends JPanel {
 			tblZeiten.setRowSelectionAllowed(false);
 			scrollPane1.setViewportView(tblZeiten);
 		}
-		add(scrollPane1, CC.xywh(1, 5, 7, 1, CC.DEFAULT, CC.FILL));
+		add(scrollPane1, CC.xywh(1, 9, 7, 1, CC.DEFAULT, CC.FILL));
 
 		//---- label4 ----
-		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + L");
-		add(label4, CC.xywh(1, 7, 7, 1));
+		label4.setText("Einf\u00fcgen: Strg + E | L\u00f6schen: Strg + L | \u00c4ndern: Doppelklick");
+		add(label4, CC.xywh(1, 11, 7, 1));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
@@ -264,6 +274,8 @@ public class StoppuhrPanel extends JPanel {
 	private JLabel fldZeit;
 	private JLabel label2;
 	private JTextField fldStartnummer;
+	private JLabel label5;
+	private JLabel label6;
 	private JScrollPane scrollPane1;
 	private JTable tblZeiten;
 	private JLabel label4;
