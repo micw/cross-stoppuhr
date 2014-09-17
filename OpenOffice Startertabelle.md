@@ -6,7 +6,7 @@ Tabelle "Teilnehmer"
   Gerade/Ungerade für diese Spalte separat, damit es keinen Konflikt mit der Formatierung "doppelte Startnummer" gibt
 - Formel für Altersklassen (Beispiel: Zeile 51). Alle Kommentare ab # entfernen und ins Excel reinkopieren
 
-``` Batchfile
+``` Shell
 =WENN(
   ODER (
 	# Wahr, wenn das Feld Geburtsdatum eine Altersklasse männlich enthält
