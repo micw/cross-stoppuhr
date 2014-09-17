@@ -33,7 +33,7 @@ Funktionen
 - Einfügen und Löschen von Nummern und Zeiten: Strg+E - einfügen, Strg+X - löschen
 - Hervorheben doppelt eingegebener Startnummern
 - Speichern mit Strg + S im CSV-Format (Automatisch fortlaufende Nummern Stoppuhr_X.csv) im Arbeitsverzeichnis
-- Automatisches Laden des letzten gespeicherten Standes aus dem imArbeitsverzeichnis
+- Automatisches Laden des letzten gespeicherten Standes aus dem Arbeitsverzeichnis
 
 Geplant für erste Version:
 - Verlauf bei jeder Änderung asynchron zwischenspeichern
