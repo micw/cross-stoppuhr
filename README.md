@@ -41,6 +41,7 @@ Offen (geplant für erste Version):
 - Start-Funktion (derzeit startet die Uhr mit Programmstart)
 - Neustart-Funktion
 - Warung/Rückfrage beim Beenden/ bei Neustart
+- Speichern unter neuer Nummer nur, wenn es Änderungen gab
 
 Ideen für spätere Versionen:
 - Packen und erstellen einer .exe mit Launch4j
