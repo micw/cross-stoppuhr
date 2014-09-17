@@ -40,6 +40,7 @@ Offen (geplant für erste Version):
 - Excel-Export zur Auswertung
 - Start-Funktion (derzeit startet die Uhr mit Programmstart)
 - Neustart-Funktion
+- Warung/Rückfrage beim Beenden/ bei Neustart
 
 Ideen für spätere Versionen:
 - Packen und erstellen einer .exe mit Launch4j
