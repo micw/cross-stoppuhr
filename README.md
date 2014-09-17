@@ -36,12 +36,12 @@ Funktionen
 - Automatisches Laden des letzten gespeicherten Standes aus dem Arbeitsverzeichnis
 
 Geplant für erste Version:
-- Verlauf bei jeder Änderung asynchron zwischenspeichern
+- Laden eines beliebigen gespeicherten Standes
 - Excel-Export zur Auswertung
-- Packen und erstellen einer .exe mit Launch4j
 
 Ideen für spätere Versionen:
-- Doppelte Startnummern hervorheben
+- Packen und erstellen einer .exe mit Launch4j
 - OpenOffice Export
+- Verlauf bei jeder Änderung asynchron zwischenspeichern
 - Auswertung integrieren? Ggf. Live-Anzeige der letzten Einläufe mit Platzierung auf 2. Bildschirm?
 
