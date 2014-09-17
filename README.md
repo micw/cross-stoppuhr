@@ -35,9 +35,11 @@ Funktionen
 - Speichern mit Strg + S im CSV-Format (Automatisch fortlaufende Nummern Stoppuhr_X.csv) im Arbeitsverzeichnis
 - Automatisches Laden des letzten gespeicherten Standes aus dem Arbeitsverzeichnis
 
-Geplant für erste Version:
+Offen (geplant für erste Version):
 - Laden eines beliebigen gespeicherten Standes
 - Excel-Export zur Auswertung
+- Start-Funktion (derzeit startet die Uhr mit Programmstart)
+- Neustart-Funktion
 
 Ideen für spätere Versionen:
 - Packen und erstellen einer .exe mit Launch4j
