@@ -21,9 +21,26 @@ Stand
 
 - 01.09.2014 erster Prototyp
 - 16.09.2014 viele Funktionen
+- 17.09.2014 OpenOffice Läufererfassung und Zeitauswertung
 
-Funktionen
-----------
+Funktionen OpenOffice Läufererfassung und Zeitauswertung
+--------------------------------------------------------
+
+- keine Makros außer zum Einlesen der Stoppuhr
+- Automatische Berechnung Altersklassen nach Jahr der Veranstaltung
+- Erfassung von Läufern direkt in der Tabelle
+- Automatische Erkennung, ob Geburtsjahr, Geburtsdatum oder Altersklasse eingegeben wurde
+- Automatische Zuweisung der Altersklasse
+- Makro, welches die letzte gespeicherte Stoppuhr im aktuellen Verzeichnis einließt
+- Ermittlung der Platzierung je Strecke: nach Altersklasse, nach Geschlecht
+
+Offen:
+- Ausdruckbare Listen
+- Urkunden über Seriendruckfunktion
+
+
+Funktionen Stoppuhr
+-------------------
 
 - Zeitnahme mit Leertaste
 - Startnummerneingabe mit Ziffern+Enter
@@ -34,6 +51,8 @@ Funktionen
 - Hervorheben doppelt eingegebener Startnummern
 - Speichern mit Strg + S im CSV-Format (Automatisch fortlaufende Nummern Stoppuhr_X.csv) im Arbeitsverzeichnis
 - Automatisches Laden des letzten gespeicherten Standes aus dem Arbeitsverzeichnis
+
+
 
 Offen (geplant für erste Version):
 - Laden eines beliebigen gespeicherten Standes
