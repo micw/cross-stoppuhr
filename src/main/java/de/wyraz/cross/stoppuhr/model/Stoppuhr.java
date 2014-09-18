@@ -28,9 +28,15 @@ public class Stoppuhr
 		nummern=new ArrayList<>();
 	}
 	
+	
+	public boolean isRunning()
+	{
+	    return startzeit>0;
+	}
+	
 	public int getZeit()
 	{
-		if (startzeit==0) return 0;
+		if (!isRunning()) return 0;
 		return (int) (System.currentTimeMillis()-startzeit);
 	}
 	public long getStartzeit()

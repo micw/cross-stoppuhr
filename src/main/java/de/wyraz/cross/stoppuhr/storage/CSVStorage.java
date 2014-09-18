@@ -8,9 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,27 +62,31 @@ public class CSVStorage implements IStorage
 		File file=getFile(num);
 		if (file.isFile()) try (Reader reader=new InputStreamReader(new FileInputStream(file),"cp1252"))
 		{
-			CsvMapReader csv=new CsvMapReader(reader,CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
-			csv.getHeader(true);
-			
-			Map<String,Object> values=csv.read(headers, cps);
-			
-			long startzeit=Long.parseLong((String)values.get("Zeit"));
-			
-			List<Integer> zeiten=new ArrayList<>();
-			List<String> nummern=new ArrayList<>();
-			
-			while ((values=csv.read(headers, cps))!=null)
+			try (CsvMapReader csv=new CsvMapReader(reader,CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE))
 			{
-				String zeit=(String)values.get("Zeit");
-				zeiten.add(zeit==null?null:new Integer(zeit));
-				nummern.add((String)values.get("Startnummer"));
+                csv.getHeader(true);
+                
+    			Map<String,Object> values=csv.read(headers, cps);
+    			
+    			long startzeit=Long.parseLong((String)values.get("Zeit"));
+
+                csv.read(headers, cps); // 1 Zeile überspringen (Startzeit Lokalzeit)
+    			
+    			List<Integer> zeiten=new ArrayList<>();
+    			List<String> nummern=new ArrayList<>();
+    			
+    			while ((values=csv.read(headers, cps))!=null)
+    			{
+    				String zeit=(String)values.get("Zeit");
+    				zeiten.add(zeit==null?null:new Integer(zeit));
+    				nummern.add((String)values.get("Startnummer"));
+    			}
+    			trimList(zeiten);
+    			trimList(nummern);
+    			
+    			stoppuhr.load(startzeit,zeiten,nummern);
+    			return true;
 			}
-			trimList(zeiten);
-			trimList(nummern);
-			
-			stoppuhr.load(startzeit,zeiten,nummern);
-			return true;
 		}
 		catch (Exception ex)
 		{
@@ -119,6 +127,15 @@ public class CSVStorage implements IStorage
 			Map<String,Object> values=new HashMap<>();
 			values.put("Zeit", stoppuhr.getStartzeit());
 			values.put("Startnummer", "Startzeit");
+			csv.write(values,headers,cps);
+			
+			/**
+			 * Startzeit in lokaler Zeitzone (für Excel-Import)
+			 */
+			
+			TimeZone tz=TimeZone.getDefault();
+            values.put("Zeit", stoppuhr.getStartzeit()+tz.getOffset(stoppuhr.getStartzeit()));
+            values.put("Startnummer", "Startzeit Lokalzeit");
 			csv.write(values,headers,cps);
 			
 			for (int i=0;i<stoppuhr.getAnzahlWerte();i++)

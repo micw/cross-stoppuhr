@@ -16,6 +16,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,10 +49,15 @@ public class StoppuhrPanel extends JPanel {
 		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Stoppuhr stoppuhr=new Stoppuhr();
+        if (!stoppuhr.isRunning())
+        {
+            JOptionPane.showMessageDialog(win, "Drücken Sie OK, um die Zeitnahme zu starten.");
+            stoppuhr.start(true);
+        }
 		
 		win.add(new StoppuhrPanel(stoppuhr));
 		win.pack();
-		win.setVisible(true);
+        win.setVisible(true);
 	}
 	
 	public StoppuhrPanel()
@@ -67,8 +73,6 @@ public class StoppuhrPanel extends JPanel {
 		this.stoppuhr=stoppuhr;
 		
 		tblZeiten.setModel(new StoppuhrTableModel(stoppuhr));
-		
-		stoppuhr.start(false);
 		
 		fldStartzeit.setText(stoppuhr.getStartzeitFormatted());
 		

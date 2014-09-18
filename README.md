@@ -56,9 +56,7 @@ Funktionen Stoppuhr
 
 Offen (geplant für erste Version):
 - Laden eines beliebigen gespeicherten Standes
-- Excel-Export zur Auswertung
-- Start-Funktion (derzeit startet die Uhr mit Programmstart)
-- Neustart-Funktion
+- Neustart-Funktion (Derzeit wird immer der letzte Stand im Verzeichnis geladen) 
 - Warung/Rückfrage beim Beenden/ bei Neustart
 - Speichern unter neuer Nummer nur, wenn es Änderungen gab
 
