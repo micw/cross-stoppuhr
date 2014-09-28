@@ -117,6 +117,7 @@ public class StoppuhrPanel extends JPanel {
 				stoppuhr.addNummer(fldStartnummer.getText());
 				fldStartnummer.setText("");
 				fldStartnummer.requestFocus();
+				tblZeiten.scrollRectToVisible(tblZeiten.getCellRect(tblZeiten.getRowCount()-1, 0, true));
 			}
 		});
 		
@@ -125,6 +126,7 @@ public class StoppuhrPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				stoppuhr.addZeit();
+				tblZeiten.scrollRectToVisible(tblZeiten.getCellRect(tblZeiten.getRowCount()-1, 0, true));
 			}
 		});
 
