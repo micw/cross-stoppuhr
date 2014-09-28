@@ -73,6 +73,8 @@ public class StoppuhrPanel extends JPanel {
 		this.stoppuhr=stoppuhr;
 		
 		tblZeiten.setModel(new StoppuhrTableModel(stoppuhr));
+		tblZeiten.scrollRectToVisible(tblZeiten.getCellRect(tblZeiten.getRowCount()-1, 0, true));
+
 		
 		fldStartzeit.setText(stoppuhr.getStartzeitFormatted());
 		
