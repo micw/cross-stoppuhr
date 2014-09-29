@@ -14,18 +14,39 @@ import de.wyraz.cross.stoppuhr.storage.IStorage;
 public class Stoppuhr
 {
 	protected long startzeit;
+	protected boolean dirty;
+	protected Thread autoSaveThread;
 	
 	public Stoppuhr()
 	{
 		saveState=storage.loadLatest(this);
 	}
 	
-	public void start(boolean force)
+	public synchronized void start(boolean force)
 	{
 		if (startzeit>0 && !force) return;
 		startzeit=System.currentTimeMillis();
 		zeiten=new ArrayList<>();
 		nummern=new ArrayList<>();
+		save();
+		autoSaveThread=new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (isRunning())
+				{
+					try
+					{
+						Thread.sleep(15000);
+					}
+					catch (InterruptedException ex)
+					{
+						// ignored
+					}
+					autosave();
+				}
+			}
+		});
+		autoSaveThread.start();
 	}
 	
 	
@@ -76,18 +97,25 @@ public class Stoppuhr
 		return saveState;
 	}
 	
-	public void save()
+	public synchronized void autosave()
 	{
-		saveState=storage.saveNext(this);
+		if (dirty) save();
 	}
 	
-	public void load(long startzeit, List<Integer> zeiten, List<String> nummern)
+	public synchronized void save()
+	{
+		saveState=storage.saveNext(this);
+		dirty=false;
+	}
+	
+	public synchronized void load(long startzeit, List<Integer> zeiten, List<String> nummern)
 	{
 		if (startzeit>0)
 		{
 			this.startzeit=startzeit;
 			this.zeiten=new ArrayList<>(zeiten);
 			this.nummern=new ArrayList<>(nummern);
+			dirty=false;
 			fireUpdated();
 		}
 	}
@@ -131,7 +159,7 @@ public class Stoppuhr
 		
 		return getZeitFormatted(zeiten.get(pos));
 	}
-	public void setZeitFormattedAt(int pos, String value)
+	public synchronized void setZeitFormattedAt(int pos, String value)
 	{
 		if (zeiten==null) return;
 		if (pos>=zeiten.size()) return;
@@ -156,6 +184,7 @@ public class Stoppuhr
 				zeit=millisekunden+sekunden*1000+minuten*60000+stunden*3600000;
 			}
 			zeiten.set(pos, zeit);
+			dirty=true;
 			fireUpdated();
 		}
 		catch (Exception ex)
@@ -163,7 +192,7 @@ public class Stoppuhr
 			// Ignored
 		}
 	}
-	public void setStartnummerFormattedAt(int pos, String value)
+	public synchronized void setStartnummerFormattedAt(int pos, String value)
 	{
 		if (nummern==null) return;
 		if (pos>=nummern.size()) return;
@@ -181,6 +210,7 @@ public class Stoppuhr
 				nummer=value;
 			}
 			nummern.set(pos, nummer);
+			dirty=true;
 			fireUpdated();
 		}
 		catch (Exception ex)
@@ -206,44 +236,50 @@ public class Stoppuhr
 		return false;
 	}
 	
-	public void addZeit()
+	public synchronized void addZeit()
 	{
 		if (startzeit==0) return;
 		zeiten.add(getZeit());
+		dirty=true;
 		fireUpdated();
 	}
-	public void addNummer(String nummer)
+	public synchronized void addNummer(String nummer)
 	{
 		if (startzeit==0) return;
 		nummern.add(nummer);
+		dirty=true;
 		fireUpdated();
 	}
-	public void insertZeitAt(int pos)
+	public synchronized void insertZeitAt(int pos)
 	{
 		if (startzeit==0) return;
 		if (pos>=zeiten.size()) zeiten.add(null);
 		else zeiten.add(pos,null);
+		dirty=true;
 		fireUpdated();
 	}
-	public void insertNummerAt(int pos)
+	public synchronized void insertNummerAt(int pos)
 	{
 		if (startzeit==0) return;
 		if (pos>=nummern.size()) nummern.add(null);
 		else nummern.add(pos,null);
+		dirty=true;
 		fireUpdated();
 	}
-	public void deleteZeitAt(int pos)
+	public synchronized void deleteZeitAt(int pos)
 	{
 		if (startzeit==0) return;
 		if (pos>=zeiten.size()) return;
 		zeiten.remove(pos);
+		dirty=true;
 		fireUpdated();
 	}
-	public void deleteNummerAt(int pos)
+	public synchronized void deleteNummerAt(int pos)
 	{
 		if (startzeit==0) return;
 		if (pos>=nummern.size()) return;
 		nummern.remove(pos);
+		dirty=true;
 		fireUpdated();
 	}
 	
