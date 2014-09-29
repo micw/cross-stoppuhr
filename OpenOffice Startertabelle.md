@@ -58,7 +58,8 @@ Tabelle "Teilnehmer"
 
 Oder das Gleich für Excel angepasst (Zeile 5, in dem Fall M/W und Geburtsdatum vertauscht:
 
-'''=WENN(
+```
+=WENN(
   ODER(
     NICHT(ISTNV(SVERWEIS(E5;Veranstaltung!$E$10:$E$99;1;0)));
     NICHT(ISTNV(SVERWEIS(E5;Veranstaltung!$G$10:$G$99;1;0)))
@@ -75,4 +76,4 @@ Oder das Gleich für Excel angepasst (Zeile 5, in dem Fall M/W und Geburtsdatum 
     )
   )
 )
-'''
+```
