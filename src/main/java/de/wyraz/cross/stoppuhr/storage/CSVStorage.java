@@ -52,8 +52,9 @@ public class CSVStorage implements IStorage
 	}
 
 	
-	protected final String[] headers=new String[] {"Zeit","Startnummer"};
-	protected final CellProcessor[] cps=new CellProcessor[] { new Optional(), new Optional() };
+	protected final String[] headersOut=new String[] {"Zeit","Startnummer","Excel-Zeit"};
+	protected final CellProcessor[] cpsV1=new CellProcessor[] { new Optional(), new Optional() };
+	protected final CellProcessor[] cpsV2=new CellProcessor[] { new Optional(), new Optional(), new Optional() };
 	
 	@Override
 	public boolean load(Stoppuhr stoppuhr, int num)
@@ -64,18 +65,20 @@ public class CSVStorage implements IStorage
 		{
 			try (CsvMapReader csv=new CsvMapReader(reader,CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE))
 			{
-                csv.getHeader(true);
+                String[] headersIn=csv.getHeader(true);
+                // die neue Version der Datei hat 3 Spalten
+                CellProcessor cpsIn[]=headersIn.length==2?cpsV1:cpsV2;
                 
-    			Map<String,Object> values=csv.read(headers, cps);
+    			Map<String,Object> values=csv.read(headersIn, cpsIn);
     			
     			long startzeit=Long.parseLong((String)values.get("Zeit"));
 
-                csv.read(headers, cps); // 1 Zeile überspringen (Startzeit Lokalzeit)
+                csv.read(headersIn, cpsIn); // 1 Zeile überspringen (Startzeit Lokalzeit)
     			
     			List<Integer> zeiten=new ArrayList<>();
     			List<String> nummern=new ArrayList<>();
     			
-    			while ((values=csv.read(headers, cps))!=null)
+    			while ((values=csv.read(headersIn, cpsIn))!=null)
     			{
     				String zeit=(String)values.get("Zeit");
     				zeiten.add(zeit==null?null:new Integer(zeit));
@@ -123,11 +126,11 @@ public class CSVStorage implements IStorage
 		try (Writer writer=new OutputStreamWriter(new FileOutputStream(dest),"cp1252"))
 		{
 			CsvMapWriter csv=new CsvMapWriter(writer,CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
-			csv.writeHeader(headers);
+			csv.writeHeader(headersOut);
 			Map<String,Object> values=new HashMap<>();
 			values.put("Zeit", stoppuhr.getStartzeit());
 			values.put("Startnummer", "Startzeit");
-			csv.write(values,headers,cps);
+			csv.write(values,headersOut,cpsV2);
 			
 			/**
 			 * Startzeit in lokaler Zeitzone (für Excel-Import)
@@ -136,13 +139,14 @@ public class CSVStorage implements IStorage
 			TimeZone tz=TimeZone.getDefault();
             values.put("Zeit", stoppuhr.getStartzeit()+tz.getOffset(stoppuhr.getStartzeit()));
             values.put("Startnummer", "Startzeit Lokalzeit");
-			csv.write(values,headers,cps);
+			csv.write(values,headersOut,cpsV2);
 			
 			for (int i=0;i<stoppuhr.getAnzahlWerte();i++)
 			{
 				values.put("Zeit", stoppuhr.getZeitAt(i));
 				values.put("Startnummer", stoppuhr.getStartnummerAt(i));
-				csv.write(values,headers,cps);
+				values.put("Excel-Zeit", toExcelZeit(stoppuhr.getZeitAt(i)));
+				csv.write(values,headersOut,cpsV2);
 			}
 			
 			csv.close();
@@ -155,5 +159,16 @@ public class CSVStorage implements IStorage
 		
 		
 		return 0;
+	}
+	
+	protected String toExcelZeit(Integer zeit)
+	{
+		if (zeit==null) return null;
+		int ms=(int) ((zeit%1000)/100);
+		int s=zeit/1000;
+		int m=s/60;
+		int h=m/60;
+		
+		return String.format("%02d:%02d:%02d,%d", h,m%60,s%60,ms);
 	}
 }
