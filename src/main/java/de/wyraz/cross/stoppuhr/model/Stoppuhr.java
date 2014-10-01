@@ -125,8 +125,17 @@ public class Stoppuhr
 	
 	public int getAnzahlWerte()
 	{
-		if (zeiten==null || nummern==null) return 0;
-		return Math.max(zeiten.size(), nummern.size());
+		return Math.max(getAnzahlZeiten(),getAnzahlStartnummern());
+	}
+	public int getAnzahlZeiten()
+	{
+		if (zeiten==null) return 0;
+		return zeiten.size();
+	}
+	public int getAnzahlStartnummern()
+	{
+		if (nummern==null) return 0;
+		return nummern.size();
 	}
 	
 	public String getStartnummerAt(int pos)
