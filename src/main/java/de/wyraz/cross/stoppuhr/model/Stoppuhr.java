@@ -67,10 +67,10 @@ public class Stoppuhr
 
 	public String getZeitFormatted()
 	{
-		return getZeitFormatted(getZeit());
+		return getZeitFormatted(getZeit(),false);
 	}
 	
-	public String getZeitFormatted(Integer zeit)
+	public String getZeitFormatted(Integer zeit, boolean withMs)
 	{
 		if (zeit==null) return null;
 		int ms=(int) ((zeit%1000)/100);
@@ -78,7 +78,8 @@ public class Stoppuhr
 		int m=s/60;
 		int h=m/60;
 		
-		return String.format("%02d:%02d:%02d.%d", h,m%60,s%60,ms);
+		if (withMs) return String.format("%02d:%02d:%02d.%d", h,m%60,s%60,ms);
+		else return String.format("%02d:%02d:%02d", h,m%60,s%60);
 	}
 	
 	public String getStartzeitFormatted()
@@ -166,7 +167,7 @@ public class Stoppuhr
 		if (pos>zeiten.size()) return null;
 		if (pos==zeiten.size()) return ">>><<<";
 		
-		return getZeitFormatted(zeiten.get(pos));
+		return getZeitFormatted(zeiten.get(pos),true);
 	}
 	public synchronized void setZeitFormattedAt(int pos, String value)
 	{

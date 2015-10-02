@@ -80,14 +80,18 @@ public class StoppuhrPanel extends JPanel {
 		
 		new Thread() {
 			public void run() {
+				String oldValue=null;
 				for (;;)
 				{
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							fldZeit.setText(stoppuhr.getZeitFormatted());
-						}
-					});
+					final String newValue=stoppuhr.getZeitFormatted();
+					if (!newValue.equals(oldValue)) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								fldZeit.setText(newValue);
+							}
+						});
+					}
 					try
 					{
 						Thread.sleep(100);
